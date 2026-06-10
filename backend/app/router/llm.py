@@ -30,8 +30,21 @@ class Message(BaseModel):
 
 
 class ChatRequest(BaseModel):
-    model: str
     messages: List[Message]
+
+
+async def _request_completion(client, base_url, api_key, model, messages):
+    res = await client.post(
+        f"{base_url}/chat/completions",
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
+        json={"model": model, "messages": messages},
+        timeout=60.0,
+    )
+    res.raise_for_status()
+    return res
 
 
 @llm_router.post("/chat/completions")
@@ -43,18 +56,23 @@ async def chat_completions(request: ChatRequest):
 
     async with httpx.AsyncClient() as client:
         try:
-            res = await client.post(
-                f"{settings.LLM_BASE_URL}/chat/completions",
-                headers={
-                    "Authorization": f"Bearer {settings.LLM_API_KEY}",
-                    "Content-Type": "application/json",
-                },
-                json={"model": request.model, "messages": messages_with_system},
-                timeout=60.0,
+            res = await _request_completion(
+                client, settings.LLM_BASE_URL, settings.LLM_API_KEY,
+                settings.LLM_MODEL, messages_with_system,
             )
-            res.raise_for_status()
         except httpx.HTTPStatusError as e:
-            raise HTTPException(status_code=e.response.status_code, detail=str(e))
+            if e.response.status_code == 429 and settings.LLM_FALLBACK_API_KEY:
+                try:
+                    res = await _request_completion(
+                        client, settings.LLM_FALLBACK_BASE_URL, settings.LLM_FALLBACK_API_KEY,
+                        settings.LLM_FALLBACK_MODEL, messages_with_system,
+                    )
+                except httpx.HTTPStatusError as e2:
+                    raise HTTPException(status_code=e2.response.status_code, detail=str(e2))
+                except httpx.RequestError as e2:
+                    raise HTTPException(status_code=503, detail=str(e2))
+            else:
+                raise HTTPException(status_code=e.response.status_code, detail=str(e))
         except httpx.RequestError as e:
             raise HTTPException(status_code=503, detail=str(e))
 

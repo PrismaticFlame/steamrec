@@ -19,16 +19,7 @@ export default defineConfig(({ mode }) => {
           rewrite: (path) => path.replace(/^\/api/, ""),
         },
         "/api": "http://localhost:8000",
-        "/llm": {
-          target: "https://llm-api.arc.vt.edu",
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/llm/, "/api/v1"),
-          configure: (proxy) => {
-            proxy.on("proxyReq", (proxyReq) => {
-              proxyReq.setHeader("Authorization", `Bearer ${env.GPT_API}`);
-            });
-          },
-        },
+        "/llm": "http://localhost:8000",
       },
     },
   };
