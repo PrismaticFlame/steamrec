@@ -6,10 +6,11 @@ class App(BaseModel):
 
     appid: int = Field(alias="_id")    # uid
     added_date: str         # ISO 8601 format YYYY-MM-DDTHH:mm:ss.SSSSSS±HH:MM
+    description: str = ""   # short store description, used for RAG embeddings
     dlc: list[int]          # array of appids
     drm: bool               # certification digital rights management
     header_image: str       # saved PNGs for steam page
-    name: str           
+    name: str
     nsfw: bool
     tags: list[str]         # genre
     type: str               # mutually exclusive: game, dlc, demo, tool
