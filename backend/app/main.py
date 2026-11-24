@@ -27,7 +27,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-mongo_client = AsyncMongoClient(host=MONGO_URI)
+mongo_client = AsyncMongoClient(host=MONGO_URI, maxPoolSize=10)
 apps = mongo_client[DATABASE_NAME][COLLECTION_NAME]
 
 

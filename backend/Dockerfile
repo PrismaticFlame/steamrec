@@ -16,4 +16,4 @@ COPY . .
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-editable
 
-CMD ["uv", "run", "fastapi", "run", "--workers", "4", "--port", "3000", "app/main.py"]
+CMD ["uv", "run", "fastapi", "run", "--workers", "2", "--port", "3000", "app/main.py"]
