@@ -1,5 +1,6 @@
 <div align="center">
-    <img src="frontend/public/steamrec.svg" height="100">
+    <img src="frontend/public/steamrec.svg" height="200">
+    <h2>SteamRec</h2>
 
 [![HTML](https://img.shields.io/badge/HTML-%23E34F26.svg?logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Glossary/HTML5)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
