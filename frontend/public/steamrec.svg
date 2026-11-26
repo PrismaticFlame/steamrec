@@ -1,5 +1,44 @@
-<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="14" cy="14" r="13" stroke="#1a9fff" stroke-width="1.5" fill="rgba(26,159,255,0.12)"/>
-  <circle cx="14" cy="14" r="6" fill="rgba(26,159,255,0.3)"/>
-  <circle cx="14" cy="14" r="2.5" fill="#66c0f4"/>
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <title id="title">SteamRec</title>
+  <defs>
+    <linearGradient id="sr-bubble" x1="20" y1="112" x2="104" y2="16" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1a6fd6"/>
+      <stop offset="0.55" stop-color="#1a9fff"/>
+      <stop offset="1" stop-color="#66c0f4"/>
+    </linearGradient>
+    <radialGradient id="sr-core" cx="62" cy="58" r="36" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1b2838"/>
+      <stop offset="1" stop-color="#101822"/>
+    </radialGradient>
+    <mask id="sr-spark-gap" maskUnits="userSpaceOnUse" x="0" y="0" width="128" height="128">
+      <rect width="128" height="128" fill="#fff"/>
+      <path d="M104 6 C106 18 110 22 122 24 C110 26 106 30 104 42 C102 30 98 26 86 24 C98 22 102 18 104 6 Z" fill="#000" stroke="#000" stroke-width="9" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+
+  <!-- Chat bubble: the natural-language prompt -->
+  <g fill="url(#sr-bubble)" mask="url(#sr-spark-gap)">
+    <circle cx="62" cy="58" r="48"/>
+    <path d="M30 92 L16 116 L50 102 Z" stroke="url(#sr-bubble)" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Inner well -->
+  <circle cx="62" cy="58" r="35" fill="url(#sr-core)"/>
+
+  <!-- Reticle: finding the right game (evolved from the original concentric circles) -->
+  <circle cx="62" cy="58" r="22" stroke="#66c0f4" stroke-width="5" opacity="0.9"/>
+  <g stroke="#66c0f4" stroke-width="5" stroke-linecap="round">
+    <line x1="62" y1="30" x2="62" y2="40"/>
+    <line x1="62" y1="76" x2="62" y2="86"/>
+    <line x1="34" y1="58" x2="44" y2="58"/>
+    <line x1="80" y1="58" x2="90" y2="58"/>
+  </g>
+
+  <!-- Lock-on point -->
+  <circle cx="62" cy="58" r="7" fill="#a3cf6f"/>
+  <circle cx="62" cy="58" r="7" stroke="#72b83f" stroke-width="1.5"/>
+
+  <!-- Spark: the LLM -->
+  <path d="M104 6 C106 18 110 22 122 24 C110 26 106 30 104 42 C102 30 98 26 86 24 C98 22 102 18 104 6 Z"
+        fill="#4cb4fa"/>
 </svg>

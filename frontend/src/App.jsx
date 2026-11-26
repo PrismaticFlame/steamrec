@@ -171,18 +171,7 @@ function App() {
     <>
       <GameBackground visible={messages.length === 0} slow={input.length > 0} />
       <div className="topbar">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-          <circle
-            cx="14"
-            cy="14"
-            r="13"
-            stroke="#1a9fff"
-            strokeWidth="1.5"
-            fill="rgba(26,159,255,0.12)"
-          />
-          <circle cx="14" cy="14" r="6" fill="rgba(26,159,255,0.3)" />
-          <circle cx="14" cy="14" r="2.5" fill="#66c0f4" />
-        </svg>
+        <img src="/steamrec.svg" width={28} height={28} alt="" />
         <span
           className="logo-text"
           onClick={() => { setMessages([]); localStorage.removeItem("chat"); }}
@@ -226,11 +215,7 @@ function App() {
                   className={`avatar ${msg.role === "bot" ? "bot-avatar" : "user-avatar"}`}
                 >
                   {msg.role === "bot" ? (
-                    <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
-                      <circle cx="14" cy="14" r="13" stroke="#1a9fff" strokeWidth="1.5" fill="rgba(26,159,255,0.12)" />
-                      <circle cx="14" cy="14" r="6" fill="rgba(26,159,255,0.3)" />
-                      <circle cx="14" cy="14" r="2.5" fill="#66c0f4" />
-                    </svg>
+                    <img src="/steamrec.svg" width={28} height={28} alt="" />
                   ) : (
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                       <circle cx="12" cy="8" r="4" fill="#72b83f" />
