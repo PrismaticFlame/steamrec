@@ -10,12 +10,12 @@ class Settings(BaseSettings):
     # LLM
     LLM_API_KEY:  str = ""
     LLM_BASE_URL: str = "https://api.groq.com/openai/v1"
-    LLM_MODEL:    str = "llama-3.1-8b-instant"
+    LLM_MODEL:    str = "openai/gpt-oss-20b"
 
     # Fallback LLM, used if the primary LLM is rate-limited (optional)
     LLM_FALLBACK_API_KEY:  str = ""
     LLM_FALLBACK_BASE_URL: str = "https://openrouter.ai/api/v1"
-    LLM_FALLBACK_MODEL:    str = "meta-llama/llama-3.1-8b-instruct:free"
+    LLM_FALLBACK_MODEL:    str = "openai/gpt-oss-120b"
 
     # API config
     LIMIT: int = 3
