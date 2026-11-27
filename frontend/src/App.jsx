@@ -179,9 +179,9 @@ function App() {
         >
           Steam<span>Rec</span>
         </span>
-        {backendStatus && (
+        {/* {backendStatus && (
           <span className="backend-status">{backendStatus}</span>
-        )}
+        )} */}
       </div>
 
       <div className="chat-area">
