@@ -36,4 +36,4 @@ app.include_router(llm_router)
 
 @app.get("/health")
 async def health():
-    return {"message": "Backend running as expected."}
+    return {"message": "Backend running as expecteded."}

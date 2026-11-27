@@ -36,3 +36,37 @@ jobs:
           aws cloudfront create-invalidation \
             --distribution-id ${{ secrets.CLOUDFRONT_DIST_ID }} \
             --paths "/index.html" "/"
+
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-2
+      - name: Send deploy command
+        id: send
+        run: |
+          CMD_ID=$(aws ssm send-command \
+            --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
+            --document-name AWS-RunShellScript \
+            --parameters '{"commands":["sudo -u ubuntu -H git -C /home/ubuntu/steamrec pull --ff-only",
+                                       "sudo -u ubuntu -H docker compose -f /home/ubuntu/steamrec/docker-compose.prod.yml up -d --build",
+                                       "sudo -u ubuntu -H docker image prune -f"]}' \
+            --query Command.CommandId --output text)
+          echo "cmd_id=$CMD_ID" >> "$GITHUB_OUTPUT"
+      - name: Wait for result
+        run: |
+          for i in $(seq 1 60); do
+            STATUS=$(aws ssm get-command-invocation \
+              --command-id ${{ steps.send.outputs.cmd_id }} \
+              --instance-id ${{ secrets.EC2_INSTANCE_ID }} \
+              --query Status --output text 2>/dev/null || echo Pending)
+            echo "status: $STATUS"
+            case "$STATUS" in
+              Success) exit 0 ;;
+              Failed|Cancelled|TimedOut) exit 1 ;;
+            esac
+            sleep 10
+          done
+          exit 1
